@@ -1,0 +1,66 @@
+#! /usr/bin/vvp
+:ivl_version "0.9.5 " "(v0_9_5)";
+:vpi_time_precision - 9;
+:vpi_module "system";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_0x17c70e0 .scope module, "TestLatchInput" "TestLatchInput" 2 25;
+ .timescale -9 -9;
+v0x17fca40_0 .net "CatchOut", 11 0, v0x17fc990_0; 1 drivers
+v0x17fcb10_0 .net "GiveInput", 11 0, v0x17fcbc0_0; 1 drivers
+v0x17fcbc0_0 .var "Number", 11 0;
+v0x17fcc40_0 .var "SelClockFreq", 2 0;
+v0x17fccf0_0 .var "clock", 0 0;
+E_0x17c7d50 .event posedge, v0x17fccf0_0;
+L_0x17fcf10 .part v0x17fcc40_0, 1, 1;
+S_0x17c7460 .scope module, "testmodule" "LatchInput" 2 44, 2 5, S_0x17c70e0;
+ .timescale 0 0;
+v0x17c7ba0_0 .net "LatchClock", 0 0, L_0x17fcf10; 1 drivers
+v0x17fc850_0 .alias "NumberIn0", 11 0, v0x17fcb10_0;
+v0x17fc8f0_0 .alias "NumberOut0", 11 0, v0x17fca40_0;
+v0x17fc990_0 .var "NumberTemp0", 11 0;
+E_0x17c7310 .event posedge, v0x17c7ba0_0;
+    .scope S_0x17c7460;
+T_0 ;
+    %wait E_0x17c7310;
+    %load/v 8, v0x17fc850_0, 12;
+    %set/v v0x17fc990_0, 8, 12;
+    %jmp T_0;
+    .thread T_0;
+    .scope S_0x17c70e0;
+T_1 ;
+    %set/v v0x17fccf0_0, 0, 1;
+    %set/v v0x17fcc40_0, 0, 3;
+    %set/v v0x17fcbc0_0, 0, 12;
+    %delay 10, 0;
+    %vpi_call 2 39 "$dumpfile", "testlatch.vcd";
+    %delay 30, 0;
+    %vpi_call 2 40 "$dumpvars", 2'sb01, S_0x17c70e0;
+    %delay 200, 0;
+    %vpi_call 2 41 "$finish";
+    %end;
+    .thread T_1;
+    .scope S_0x17c70e0;
+T_2 ;
+    %wait E_0x17c7d50;
+    %ix/load 0, 1, 0;
+    %load/vp0 8, v0x17fcc40_0, 3;
+    %set/v v0x17fcc40_0, 8, 3;
+    %ix/load 0, 1, 0;
+    %load/vp0 8, v0x17fcbc0_0, 12;
+    %set/v v0x17fcbc0_0, 8, 12;
+    %jmp T_2;
+    .thread T_2;
+    .scope S_0x17c70e0;
+T_3 ;
+    %delay 10, 0;
+    %load/v 8, v0x17fccf0_0, 1;
+    %inv 8, 1;
+    %set/v v0x17fccf0_0, 8, 1;
+    %jmp T_3;
+    .thread T_3;
+# The file index is used to find the file name in the following table.
+:file_names 3;
+    "N/A";
+    "<interactive>";
+    "./LatchInput.v";

@@ -1,0 +1,3 @@
+TestStatic is for seeing outputs of fft for a constant user generated input. it does not have led matrix.
+Test Dynamic is testing for our usual code which we will use in fpga.
+TestDynamic Fast is when outputs change fast enough so that we can see simulation.
